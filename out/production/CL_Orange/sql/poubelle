@@ -1,0 +1,98 @@
+    /************************ GESTION DES CLIENTS **********************/
+    public static void insertSalarie(Salarie unSalarie) {
+        String requete = "insert into salarie values (null, '"+unSalarie.getNom()
+                + "','" + unSalarie.getPrenom() + "','" + unSalarie.getEmail() + "','" + unSalarie.getMdp() +"');";
+
+        executerRequete (requete);
+    }
+
+    public static ArrayList<Client> selectAllSalaries (){
+        ArrayList<Salarie> lesSalaries = new ArrayList<Salarie>();
+        String requete ="select * from salarie;";
+        try {
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while(lesResultats.next()) {
+                //instanciation d'un Salarie
+                Salarie unSalarie = new Salarie(
+                        lesResultats.getInt("ID_Utilisateur"), lesResultats.getInt("idSalarie"),
+                        lesResultats.getString("nom"),lesResultats.getString("prenom"),
+                        lesResultats.getString("email"), lesResultats.getString("mdp")
+                );
+                //on ajoute le Salarie dans l'ArrayList
+                lesSalaries.add(unSalarie);
+            }
+            unStat.close();
+            uneConnexion.seDeconnecter();
+        }
+        catch(SQLException exp) {
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesSalaries;
+    }
+
+    public static void deleteSalarie (int idSalarie) {
+        String requete = "delete from salarie where idSalarie = "+idSalarie+";";
+        executerRequete(requete);
+    }
+
+    public static void updateSalarie(Salarie unSalarie) {
+        String requete ="update salarie set nom = '" + unSalarie.getNom()
+                + "', prenom ='"+unClient.getPrenom()
+                + "', email ='"+unClient.getEmail()
+                + "'  where  idSalarie = "+unSalarie.getIdSalarie()+";";
+
+        executerRequete(requete);
+    }
+
+    public static ArrayList<Salarie> selectLikeSalarie (String filtre){
+        ArrayList<Salarie> lesSalaries = new ArrayList<Salarie>();
+        String requete ="select * from salarie where nom like '%"+filtre
+                +"%' or prenom like '%" + filtre + "%' or email like '%" + filtre + "%' ; ";
+        try {
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet lesResultats = unStat.executeQuery(requete);
+            while(lesResultats.next()) {
+                //instanciation d'un Salarie
+                Salarie unSalarie = new Salarie(
+                        lesResultats.getInt("ID_Utilisateur"), lesResultats.getInt("idSalarie"),
+                        lesResultats.getString("nom"), lesResultats.getString("prenom"),
+                        lesResultats.getString("email")
+                );
+                //on ajoute le Salarie dans l'ArrayList
+                lesSalaries.add(unSalarie);
+            }
+            unStat.close();
+            uneConnexion.seDeconnecter();
+        }
+        catch(SQLException exp) {
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return lesSalaries;
+    }
+
+    public static Salarie selectWhereSalarie(int idSalarie) {
+        String requete ="select * from salarie where idSalarie = "+idSalarie+";";
+        Salarie unSalarie = null;
+        try {
+            uneConnexion.seConnecter();
+            Statement unStat = uneConnexion.getMaConnexion().createStatement();
+            ResultSet unResultat = unStat.executeQuery(requete);
+            if(unResultat.next()) {
+                //instanciation du Salarie
+                unSalarie = new Salarie(
+                        unResultat.getInt("ID_Utilisateur"), unResultat.getInt("idSalarie"),
+                        unResultat.getString("nom"), unResultat.getString("prenom"),
+                        unResultat.getString("email")
+                );
+            }
+            unStat.close();
+            uneConnexion.seDeconnecter();
+        }
+        catch(SQLException exp) {
+            System.out.println("Erreur d'execution de la requete : " + requete);
+        }
+        return unSalarie;
+    }
