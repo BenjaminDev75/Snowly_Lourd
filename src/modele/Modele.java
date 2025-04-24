@@ -153,14 +153,29 @@ public class Modele {
 
 
     /************************ GESTION DES CLIENTS **********************/
-    public static void insertClient(Client unClient) {
-        String requete = "insert into client(ID_Utilisateur, idClient, prenom, nom, email,Adresse, Telephone) " +
-                "values (null,null, '"+unClient.getPrenom()
-                + "','" + unClient.getNom()+ "','" +  unClient.getEmail()
-                + "','" + unClient.getAdresse() + "','" + unClient.getTelephone() +"');";
 
-        executerRequete (requete);
+    public static void insertClient(Client unClient) {
+ // Génération automatique d'un mot de passe (par exemple, une chaîne aléatoire de 8 caractères)
+ String motDePasse = generateRandomPassword(8);
+
+ String requete = "INSERT INTO client (ID_Utilisateur, idClient, prenom, nom, email, Mot_De_Passe, Adresse, Ville, CP, Telephone) " +
+ "VALUES (null, null, '" + unClient.getPrenom() + "', '" + unClient.getNom() + "', '" + unClient.getEmail() + "', '" + motDePasse + "', '" + unClient.getAdresse()  + "', '" + unClient.getVille() + "', '" + unClient.getCp() + "', '" +  unClient.getTelephone() + "');";
+
+ executerRequete(requete);
     }
+
+
+    // Méthode pour générer un mot de passe aléatoire
+    public static String generateRandomPassword(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder password = new StringBuilder();
+        for (int i = 0; i < length; i++) {
+            int index = (int) (Math.random() * characters.length());
+            password.append(characters.charAt(index));
+        }
+        return password.toString();
+    }
+
 
     public static ArrayList<Client> selectAllClients (){
         ArrayList<Client> lesClients = new ArrayList<Client>();
@@ -175,6 +190,7 @@ public class Modele {
                         lesResultats.getInt("ID_Utilisateur"), lesResultats.getInt("idClient"),
                         lesResultats.getString("prenom"), lesResultats.getString("nom"),
                         lesResultats.getString("email"), lesResultats.getString("Adresse"),
+                        lesResultats.getString("Ville"), lesResultats.getString("CP"),
                         lesResultats.getString("Telephone")
                 );
                 //on ajoute le client dans l'ArrayList
@@ -219,6 +235,7 @@ public class Modele {
                         lesResultats.getInt("ID_Utilisateur"), lesResultats.getInt("idClient"),
                         lesResultats.getString("prenom"), lesResultats.getString("nom"),
                         lesResultats.getString("email"), lesResultats.getString("Adresse"),
+                        lesResultats.getString("Ville"), lesResultats.getString("CP"),
                         lesResultats.getString("Telephone")
                 );
                 //on ajoute le client dans l'ArrayList
@@ -246,6 +263,7 @@ public class Modele {
                         unResultat.getInt("ID_Utilisateur"), unResultat.getInt("idClient"),
                         unResultat.getString("prenom"), unResultat.getString("nom"),
                         unResultat.getString("email"), unResultat.getString("Adresse"),
+                        unResultat.getString("Ville"), unResultat.getString("CP"),
                         unResultat.getString("Telephone")
                 );
             }
@@ -316,11 +334,11 @@ public class Modele {
     }
 
     public static void updateAppartement(Appartement unAppartement) {
-        String requete ="update appartement set Nom_Immmeuble = '" + unAppartement.getNom_Immeuble()
+        String requete ="update appartement set Nom_Immeuble = '" + unAppartement.getNom_Immeuble()
                 + "', Adresse ='"+unAppartement.getAdresse() + "', CP ='" + unAppartement.getCP()
                 + "', Ville ='" + unAppartement.getVille() + "', Exposition ='" + unAppartement.getExposition()
                 + "', Exposition ='"+ unAppartement.getExposition() + "', Surface_Habitable ='" + unAppartement.getSurface_Habitable()
-                + "', Surface_Balcon ='" + unAppartement.getSurface_Balcon() + "', Capacite_Acceuil ='" + unAppartement.getCapacite_Accueil()
+                + "', Surface_Balcon ='" + unAppartement.getSurface_Balcon() + "', Capacite_Accueil ='" + unAppartement.getCapacite_Accueil()
                 + "', Distance_Pistes ='"+ unAppartement.getDistance_Pistes() + "', Description ='" + unAppartement.getDescription()
                 +"', Tarif ='"+ unAppartement.getTarif() + "', ID_Station ='"
                 + "'  where  ID_Appartement = "+unAppartement.getID_Appartement()+";";
@@ -330,7 +348,7 @@ public class Modele {
 
     public static ArrayList<Appartement> selectLikeAppartement (String filtre){
         ArrayList<Appartement> lesAppartements = new ArrayList<Appartement>();
-        String requete ="select * from appartement where Nom_Immmeuble like '%"+filtre
+        String requete ="select * from appartement where Nom_Immeuble like '%"+filtre
                 +"%' or Adresse like '%" + filtre + "%' or CP like '%"
                 + filtre + "%' or Ville like '%" + filtre + "%' ; ";
         try {
@@ -340,11 +358,11 @@ public class Modele {
             while(lesResultats.next()) {
                 //instanciation d'un client
                 Appartement unAppartement = new Appartement(
-                        lesResultats.getInt("ID_Appartement"), lesResultats.getString("Nom_Immmeuble"),
+                        lesResultats.getInt("ID_Appartement"), lesResultats.getString("Nom_Immeuble"),
                         lesResultats.getString("Adresse"), lesResultats.getString("CP"),
                         lesResultats.getString("Ville"), lesResultats.getString("Exposition"),
                         lesResultats.getFloat("Surface_Habitable"), lesResultats.getFloat("Surface_Balcon"),
-                        lesResultats.getInt("Capacite_Acceuil"), lesResultats.getFloat("Distance_Pistes"),
+                        lesResultats.getInt("Capacite_Accueil"), lesResultats.getFloat("Distance_Pistes"),
                         lesResultats.getString("Description"),lesResultats.getFloat("Tarif"),
                         lesResultats.getInt("ID_Station"), lesResultats.getInt("ID_Utilisateur"),
                         lesResultats.getInt("idImage")
@@ -371,11 +389,11 @@ public class Modele {
             if(unResultat.next()) {
                 //instanciation du client
                 unAppartement = new Appartement(
-                        unResultat.getInt("ID_Appartement"), unResultat.getString("Nom_Immmeuble"),
+                        unResultat.getInt("ID_Appartement"), unResultat.getString("Nom_Immeuble"),
                         unResultat.getString("Adresse"), unResultat.getString("CP"),
                         unResultat.getString("Ville"), unResultat.getString("Exposition"),
                         unResultat.getFloat("Surface_Habitable"), unResultat.getFloat("Surface_Balcon"),
-                        unResultat.getInt("Capacite_Acceuil"), unResultat.getFloat("Distance_Pistes"),
+                        unResultat.getInt("Capacite_Accueil"), unResultat.getFloat("Distance_Pistes"),
                         unResultat.getString("Description"),unResultat.getFloat("Tarif"),
                         unResultat.getInt("ID_Station"), unResultat.getInt("ID_Utilisateur"),
                         unResultat.getInt("idImage")
@@ -615,6 +633,18 @@ public class Modele {
     }
 
 
+    public static void insertReservation(Reservation uneReservation) {
+        String requete = "INSERT INTO reservation (ID_Reservation, DateReservation, DateDebut, DateFin, Montant_Total, ID_Utilisateur, ID_Appartement) VALUES ("
+                + uneReservation.getID_Reservation() + ", '"
+                + uneReservation.getDateReservation() + "', '"
+                + uneReservation.getDateDebut() + "', '"
+                + uneReservation.getDateFin() + "', "
+                + uneReservation.getMontant_Total() + ", "
+                + uneReservation.getID_Utilisateur() + ", "
+                + uneReservation.getID_Appartement() + ");";
+
+        executerRequete(requete);
+    }
 
 
 }

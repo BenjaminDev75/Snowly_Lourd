@@ -2,29 +2,47 @@ package controleur;
 
 public class Client {
     private int idClient,ID_Utilisateur;
-    private String nom, prenom, adresse, email, Telephone;
+    private String nom, prenom, adresse, ville, cp, email, Telephone;
 
-    public Client(int ID_Utilisateur, int idClient, String nom, String prenom, String adresse, String email, String Telephone) {
+    public Client(int ID_Utilisateur, int idClient, String nom, String prenom, String adresse, String email, String ville, String cp, String Telephone) {
         this.ID_Utilisateur = ID_Utilisateur;
         this.idClient = idClient;
-        this.prenom = prenom;
         this.nom = nom;
+        this.prenom = prenom;
         this.email = email;
         this.adresse = adresse;
+        this.ville = ville;
+        this.cp = cp;
         this.Telephone = Telephone;
     }
-    public Client( String nom, String prenom, String adresse, String email, String Telephone) {
+    public Client( String nom, String prenom, String email, String adresse,  String ville, String cp, String Telephone) {
         this.ID_Utilisateur = 0;
         this.idClient = 0;
         this.nom = nom;
         this.prenom = prenom;
-        this.adresse = adresse;
         this.email = email;
+        this.adresse = adresse;
+        this.ville = ville;
+        this.cp = cp;
         this.Telephone = Telephone;
     }
 
 
+    public String getVille() {
+        return ville;
+    }
 
+    public void setVille(String ville) {
+        this.ville = ville;
+    }
+
+    public String getCp() {
+        return cp;
+    }
+
+    public void setCp(String cp) {
+        this.cp = cp;
+    }
 
     public int getID_Utilisateur() {
         return ID_Utilisateur;

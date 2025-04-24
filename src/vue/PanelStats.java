@@ -22,7 +22,7 @@ public class PanelStats extends PanelPrincipal {
         super("Gestion des Statistiques");
 
 
-        panelCount.setBackground(Color.cyan);
+        panelCount.setBackground(Color.gray);
         panelCount.setBounds(500,200,400,250);
         panelCount.setLayout(new GridLayout(2,2));
 

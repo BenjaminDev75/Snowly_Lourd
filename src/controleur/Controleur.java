@@ -171,5 +171,8 @@ public class Controleur {
     public static  void deleteReservation(int idReservation){
         Modele.deleteReservation(idReservation);
     }
+    public static void insertReservation(Reservation unReservation){
+        Modele.insertReservation(unReservation);
+    }
 
 }
