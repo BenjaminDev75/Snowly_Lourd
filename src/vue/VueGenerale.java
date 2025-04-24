@@ -1,6 +1,6 @@
 package vue;
 
-import controleur.Orange;
+import controleur.Snowly;
 
 import javax.swing.*;
 import java.awt.*;
@@ -108,9 +108,9 @@ public class VueGenerale extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (this.btQuitter == e.getSource()) {
             // Rendre invisible la fenêtre VueConnexion
-            Orange.rendreVisibleVueConnexion(true);
+            Snowly.rendreVisibleVueConnexion(true);
             // Détruire la vue générale
-            Orange.creerVueGenerale(false);
+            Snowly.creerVueGenerale(false);
         }
 
         String choix = e.getActionCommand();

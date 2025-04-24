@@ -1,7 +1,7 @@
 package vue;
 
 import controleur.Controleur;
-import controleur.Orange;
+import controleur.Snowly;
 import controleur.Salarie;
 
 import javax.swing.*;
@@ -50,7 +50,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
 
         // Installation de TextArea
         this.textInfos.setBounds(300, 100, 300, 150);
-        unSalarie = Orange.getTechConnecte();
+        unSalarie = Snowly.getTechConnecte();
         this.textInfos.setEditable(false);
         this.textInfos.setBackground(new Color(60, 63, 65)); // Couleur de fond moderne
         this.textInfos.setForeground(Color.WHITE); // Couleur de texte blanche pour contraste
@@ -123,7 +123,7 @@ public class PanelProfil extends PanelPrincipal implements ActionListener {
                 Controleur.updateSalarie(unSalarie);
 
                 // On modifie le technicien connecté
-                Orange.setTechConnecte(unSalarie);
+                Snowly.setTechConnecte(unSalarie);
 
                 // Message de confirmation
                 JOptionPane.showMessageDialog(this, "Modification réussie du technicien.",

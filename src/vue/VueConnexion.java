@@ -1,7 +1,7 @@
 package vue;
 
 import controleur.Controleur;
-import controleur.Orange;
+import controleur.Snowly;
 import controleur.Salarie;
 
 import javax.swing.*;
@@ -98,11 +98,11 @@ public class VueConnexion extends JFrame implements ActionListener, KeyListener 
         } else {
             JOptionPane.showMessageDialog(this, "Bienvenue, " + unSalarie.getNom() + " !");
             // Rendre invisible la fenêtre VueConnexion
-            Orange.rendreVisibleVueConnexion(false);
+            Snowly.rendreVisibleVueConnexion(false);
             // Sauvegarde du technicien
-            Orange.setTechConnecte(unSalarie);
+            Snowly.setTechConnecte(unSalarie);
             // Ouvrir la vue générale
-            Orange.creerVueGenerale(true);
+            Snowly.creerVueGenerale(true);
         }
     }
 
